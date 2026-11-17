@@ -1,0 +1,11 @@
+dist/
+.DS_Store
+__pycache__/
+*.pyc
+assets/PixelDrop-original.png
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.mobileprovision
