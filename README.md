@@ -6,7 +6,7 @@
 
 <p align="center">Pick a screen color. Copy its HTML hex code.</p>
 
-PixelDrop is a small color picker for **macOS** and **Ubuntu**. On macOS it lives in the menu bar, without a Dock icon. Press **⌘⇧2**, move the eyedropper, and click to copy a color such as `#12ABEF`. A popup confirms the copied code.
+PixelDrop is a small color picker for **macOS** and **Ubuntu** (Not supporting Windows because I hate this OS). On macOS it lives in the menu bar, without a Dock icon. Press **⌘⇧2**, move the eyedropper, and click to copy a color such as `#12ABEF`. A popup confirms the copied code.
 
 ## Features
 
@@ -21,7 +21,7 @@ PixelDrop is a small color picker for **macOS** and **Ubuntu**. On macOS it live
 
 ### macOS 14 or later
 
-Release binaries are not published yet. Once available, download `PixelDrop-macos-universal.dmg` from this repository's **Releases**, then:
+Download `PixelDrop-macos-universal.dmg` from this repository's **Releases**, then:
 
 1. Open the DMG and drag **PixelDrop.app** into **Applications**.
 2. Eject the DMG and open PixelDrop from Applications.
@@ -48,7 +48,7 @@ On Wayland, your desktop must provide a Screenshot-capable portal backend. Ubunt
 
 ### curl / wget
 
-After a release is published, use the installer with this repository's `AbnerTeng/PixelDrop`:
+Use the installer with this repository's `AbnerTeng/PixelDrop`:
 
 ```sh
 curl -fL https://github.com/AbnerTeng/PixelDrop/releases/latest/download/install.sh -o /tmp/pixeldrop-install.sh
