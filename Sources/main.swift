@@ -139,7 +139,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         window.becomesKeyOnlyIfNeeded = false
         window.hidesOnDeactivate = false
-        window.title = "PixelDrop 0.1.8"; window.center(); window.isReleasedWhenClosed = false
+        window.title = "PixelDrop 0.1.9"; window.center(); window.isReleasedWhenClosed = false
         let label = NSTextField(wrappingLabelWithString: "Press ⌘⇧2 for the macOS eyedropper.\n\nClick to copy #RRGGBB; Esc cancels.\nFrozen screenshots are available in the menu.")
         label.frame = NSRect(x: 28, y: 160, width: 384, height: 100); label.font = .systemFont(ofSize: 14)
         window.contentView?.addSubview(label)
@@ -198,17 +198,51 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     func showCopyNotice(_ hex: String) {
         dismissCopyNotice()
-        let panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 380, height: 90),
-                            styleMask: [.titled, .closable, .nonactivatingPanel], backing: .buffered, defer: false)
-        panel.title = "PixelDrop"
+        let panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 236, height: 48),
+                            styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+        panel.isOpaque = false
+        panel.backgroundColor = .clear
+        panel.hasShadow = true
+        panel.ignoresMouseEvents = true
         panel.isReleasedWhenClosed = false
         panel.hidesOnDeactivate = false
         panel.level = .floating
         panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
-        let label = NSTextField(labelWithString: "Copied color code \(hex)")
-        label.font = .monospacedSystemFont(ofSize: 18, weight: .medium)
-        label.frame = NSRect(x: 24, y: 33, width: 340, height: 26)
-        panel.contentView?.addSubview(label)
+        let background = NSView(frame: NSRect(x: 0, y: 0, width: 236, height: 48))
+        background.wantsLayer = true
+        background.layer?.backgroundColor = NSColor.black.withAlphaComponent(0.65).cgColor
+        background.layer?.cornerRadius = 12
+        background.layer?.masksToBounds = true
+        panel.contentView = background
+        let label = NSTextField(labelWithString: "Copied")
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = .white
+
+        let rgb = UInt32(hex.dropFirst(), radix: 16) ?? 0
+        let swatch = NSView()
+        swatch.wantsLayer = true
+        swatch.layer?.backgroundColor = NSColor(
+            srgbRed: CGFloat((rgb >> 16) & 0xff) / 255,
+            green: CGFloat((rgb >> 8) & 0xff) / 255,
+            blue: CGFloat(rgb & 0xff) / 255, alpha: 1).cgColor
+        swatch.layer?.borderWidth = 1
+        swatch.layer?.borderColor = NSColor.white.withAlphaComponent(0.4).cgColor
+
+        let code = NSTextField(labelWithString: hex)
+        code.font = .monospacedSystemFont(ofSize: 15, weight: .medium)
+        code.textColor = .white
+        let content = NSStackView(views: [label, swatch, code])
+        content.orientation = .horizontal
+        content.alignment = .centerY
+        content.spacing = 10
+        content.translatesAutoresizingMaskIntoConstraints = false
+        background.addSubview(content)
+        NSLayoutConstraint.activate([
+            swatch.widthAnchor.constraint(equalToConstant: 16),
+            swatch.heightAnchor.constraint(equalToConstant: 16),
+            content.centerXAnchor.constraint(equalTo: background.centerXAnchor),
+            content.centerYAnchor.constraint(equalTo: background.centerYAnchor)
+        ])
         if let screen = NSScreen.screens.first(where: { $0.frame.contains(NSEvent.mouseLocation) }) {
             let visible = screen.visibleFrame
             panel.setFrameOrigin(NSPoint(x: visible.midX - panel.frame.width / 2,
@@ -221,7 +255,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if self?.copyNotice === panel { self?.copyNotice = nil }
         }
         dismissNotice = dismissal
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: dismissal)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: dismissal)
     }
     @objc func startScreenshotPicking() {
         guard !samplerActive, !capturing, overlays.isEmpty else { return }

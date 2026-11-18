@@ -6,7 +6,7 @@
 
 <p align="center">Pick a screen color. Copy its HTML hex code.</p>
 
-PixelDrop is a small color picker for **macOS** and **Ubuntu** (Not supporting Windows because I hate this OS). On macOS it lives in the menu bar, without a Dock icon. Press **⌘⇧2**, move the eyedropper, and click to copy a color such as `#12ABEF`. A popup confirms the copied code.
+PixelDrop is a small color picker for **macOS** and **Ubuntu** (Not supporting Windows because I hate this OS). On macOS it lives in the menu bar, without a Dock icon. Press **⌘⇧2**, move the eyedropper, and click to copy a color such as `#12ABEF`. A small “Copied ■ #12ABEF” toast confirms the copy and disappears after one second on macOS.
 
 ## Features
 
@@ -62,7 +62,7 @@ wget https://github.com/AbnerTeng/PixelDrop/releases/latest/download/install.sh 
 sh /tmp/pixeldrop-install.sh AbnerTeng/PixelDrop
 ```
 
-The installer verifies release SHA-256 checksums. It installs macOS to `~/Applications`, or Ubuntu to `~/.local/share/pixeldrop` with a launcher in `~/.local/bin` and an Applications entry. Ubuntu dependencies must be installed first. An optional second argument selects a release tag, for example `v0.1.8`.
+The installer verifies release SHA-256 checksums. It installs macOS to `~/Applications`, or Ubuntu to `~/.local/share/pixeldrop` with a launcher in `~/.local/bin` and an Applications entry. Ubuntu dependencies must be installed first. An optional second argument selects a release tag, for example `v0.1.9`.
 
 ### Homebrew
 
@@ -129,7 +129,7 @@ Flow tests simulate selection, cancellation, denied-capture recovery, and pendin
 
 ## Release
 
-Push a semantic version tag such as `v0.1.8`. The GitHub Actions workflow builds both platforms, runs tests, and publishes:
+Push a semantic version tag such as `v0.1.9`. The GitHub Actions workflow builds both platforms, runs tests, and publishes:
 
 - Universal macOS DMG and application archive.
 - Ubuntu archive.
@@ -139,7 +139,7 @@ Push a semantic version tag such as `v0.1.8`. The GitHub Actions workflow builds
 To generate tap files locally alongside release packages:
 
 ```sh
-./scripts/package.sh AbnerTeng/PixelDrop v0.1.8
+./scripts/package.sh AbnerTeng/PixelDrop v0.1.9
 ```
 
 For Developer ID signing, set `CODE_SIGN_IDENTITY` when building and packaging. Set `NOTARY_PROFILE` to an existing `notarytool` keychain profile during packaging to submit and staple the DMG. Credentials are never stored in this repository.
